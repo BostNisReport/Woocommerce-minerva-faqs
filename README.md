@@ -1,0 +1,1 @@
+# Woocommerce-minerva-faqs
