@@ -98,8 +98,7 @@ class MinervaKB_Assets {
 	 */
 	private function get_client_js_data() {
 		
-		if (has_shortcode( $post->post_content, 'faq' ) ) {	
-			
+		
 			return array(
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'siteUrl' => site_url(),
@@ -181,7 +180,7 @@ class MinervaKB_Assets {
 					'feedback_sent_text' => MKB_Options::option( 'feedback_sent_text' ),
 				)
 			);
-		}
+		
 	}
 
 	/**
