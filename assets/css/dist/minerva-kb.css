@@ -1429,3 +1429,6 @@ ul.mkb-anchors-list__container {
     font-size: 1.4em; }
   .mkb-root h1 {
     font-size: 1.5em; } }
+
+  .mkb-root, .kb-search, .kb-search input, .mkb-shortcode-container{
+	  font-family: inherit !important; }
