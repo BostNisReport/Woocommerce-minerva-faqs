@@ -511,7 +511,123 @@ class MKB_TemplateHelper {
 		wp_reset_postdata();
 	}
 
-	
+	/**
+	 * Gets term name
+	 * @param $term
+	 *
+	 * @return null
+	 */
+	protected static function get_term_name($term) {
+		if ( $term == 'recent' ) {
+			return MKB_Options::option( 'recent_topic_label' );
+		} else if ( $term == 'top_views' ) {
+			return MKB_Options::option( 'most_viewed_topic_label' );
+		} else if ( $term == 'top_likes' ) {
+			return MKB_Options::option( 'most_liked_topic_label' );
+		} else {
+			return $term->name;
+		}
+	}
+
+	/**
+	 * Gets term description
+	 * @param $term
+	 *
+	 * @return null
+	 */
+	protected static function get_term_description($term) {
+		if ( $term == 'recent' ) {
+			return MKB_Options::option( 'recent_topic_description' );
+		} else if ( $term == 'top_views' ) {
+			return MKB_Options::option( 'most_viewed_topic_description' );
+		} else if ( $term == 'top_likes' ) {
+			return MKB_Options::option( 'most_liked_topic_description' );
+		} else {
+			return $term->description;
+		}
+	}
+
+	/**
+	 * Gets term items
+	 * @param $term
+	 * @param $options
+	 *
+	 * @return WP_Query
+	 */
+	protected static function get_term_items_loop($term, $options) {
+		$query_args = array(
+			'post_type' => MKB_Options::option( 'article_cpt' ),
+			'posts_per_page' => isset($options['home_topics_articles_limit']) ?
+				$options['home_topics_articles_limit'] :
+				5,
+			'ignore_sticky_posts' => 1
+		);
+
+		if ( !self::is_dynamic_topic($term) && isset($term->slug) ) {
+			$query_args['tax_query'] = array(
+				array(
+					'taxonomy' => MKB_Options::option( 'article_cpt_category' ),
+					'field'    => 'slug',
+					'terms'    => $term->slug,
+					'include_children' => (bool) MKB_Options::option('topic_children_include_articles')
+				),
+			);
+
+			// custom articles order
+			if (MKB_Options::option( 'enable_articles_reorder' )) {
+				$query_args['orderby'] = 'menu_order';
+				$query_args['order'] = 'ASC';
+			} else {
+				$query_args['orderby'] = MKB_Options::option('articles_orderby');
+				$query_args['order'] = MKB_Options::option('articles_order');
+			}
+		}
+
+		if ($term == 'top_views' || $term == 'top_likes') {
+			$query_args['orderby'] = 'meta_value_num';
+			$query_args['order'] = 'DESC';
+		}
+
+		if ($term == 'top_views') {
+			$query_args['meta_key'] = '_mkb_views';
+		} else if ($term == 'top_likes') {
+			$query_args['meta_key'] = '_mkb_likes';
+		}
+
+		/**
+		 * Remove restricted articles from query, if required
+		 */
+		if (MKB_Options::option('restrict_on') && MKB_Options::option('restrict_remove_from_archives')) {
+			global $minerva_kb;
+
+			$query_args['post__in'] = $minerva_kb->restrict->get_allowed_article_ids_query();
+		}
+
+		$loop = new WP_Query( $query_args );
+
+		if ($loop->post_count === 0 && ($term === 'top_views' || $term === 'top_likes')) {
+			// fallback to recent, if no likes and views
+			$query_args = array(
+				'post_type' => MKB_Options::option( 'article_cpt' ),
+				'posts_per_page' => isset($options['home_topics_articles_limit']) ?
+					$options['home_topics_articles_limit'] :
+					5,
+				'ignore_sticky_posts' => 1
+			);
+
+			$loop = new WP_Query( $query_args );
+		}
+
+		return $loop;
+	}
+
+	protected static function get_term_link($term) {
+		if (self::is_dynamic_topic($term)) {
+			return "#";
+		}
+
+		return get_term_link($term);
+	}
 
 	/**
 	 * Search template
