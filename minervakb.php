@@ -17,10 +17,10 @@ define('MINERVA_KB_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('MINERVA_THEME_DIR', get_stylesheet_directory());
 
 // register custom DB on plugin activation
-require_once(MINERVA_KB_PLUGIN_DIR . 'lib/db.php');
+//require_once(MINERVA_KB_PLUGIN_DIR . 'lib/db.php');
 
 // create search analytics table on plugin activation
-function mkb_on_activate( $network_wide ) {
+/*function mkb_on_activate( $network_wide ) {
 	global $wpdb;
 
 	if ( is_multisite() && $network_wide ) {
@@ -35,7 +35,7 @@ function mkb_on_activate( $network_wide ) {
 		MKB_DbModel::create_schema();
 	}
 }
-register_activation_hook(__FILE__, 'mkb_on_activate');
+register_activation_hook(__FILE__, 'mkb_on_activate');*/
 
 require_once(MINERVA_KB_PLUGIN_DIR . 'lib/restrict.php');
 // removes plugin technical data on uninstall
@@ -46,14 +46,14 @@ function mkb_on_uninstall () {
 register_uninstall_hook( __FILE__, 'mkb_on_uninstall' );
 
 // create search analytics table whenever a new blog is created
-function mkb_on_create_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
+/*function mkb_on_create_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 	if ( is_plugin_active_for_network( 'minervakb/minervakb.php' ) ) {
 		switch_to_blog( $blog_id );
 		MKB_DbModel::create_schema();
 		restore_current_blog();
 	}
 }
-add_action( 'wpmu_new_blog', 'mkb_on_create_blog', 10, 6 );
+add_action( 'wpmu_new_blog', 'mkb_on_create_blog', 10, 6 );*/
 
 // init app
 require_once(MINERVA_KB_PLUGIN_DIR . 'lib/app.php');
