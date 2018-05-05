@@ -51,7 +51,7 @@ class MinervaKB_FAQShortcode extends KST_Shortcode implements KST_Shortcode_Inte
 				'id' => 'title',
 				'type' => 'input',
 				'label' => __( 'FAQ title', 'minerva-kb' ),
-				'default' => __( 'Frequently Asked Questions', 'minerva-kb' ),
+				'default' => __( '', 'minerva-kb' ),
 				'admin_label' => true
 			),
 			array(
@@ -87,14 +87,14 @@ class MinervaKB_FAQShortcode extends KST_Shortcode implements KST_Shortcode_Inte
 				'id' => 'margin_top',
 				'type' => 'css_size',
 				'label' => __( 'FAQ section top margin', 'minerva-kb' ),
-				'default' => array("unit" => 'em', "size" => "3"),
+				'default' => array("unit" => '', "size" => ""),
 				'description' => __( 'Distance between FAQ and previous section', 'minerva-kb' ),
 			),
 			array(
 				'id' => 'margin_bottom',
 				'type' => 'css_size',
 				'label' => __( 'FAQ section bottom margin', 'minerva-kb' ),
-				'default' => array("unit" => 'em', "size" => "3"),
+				'default' => array("unit" => '', "size" => ""),
 				'description' => __( 'Distance between FAQ and next sections', 'minerva-kb' ),
 			),
 
@@ -120,14 +120,14 @@ class MinervaKB_FAQShortcode extends KST_Shortcode implements KST_Shortcode_Inte
 				'id' => 'controls_margin_top',
 				'type' => 'css_size',
 				'label' => __( 'FAQ controls top margin', 'minerva-kb' ),
-				'default' => array("unit" => 'em', "size" => "2"),
+				'default' => array("unit" => 'em', "size" => "0"),
 				'description' => __( 'Distance between FAQ controls and title', 'minerva-kb' ),
 			),
 			array(
 				'id' => 'controls_margin_bottom',
 				'type' => 'css_size',
 				'label' => __( 'FAQ controls bottom margin', 'minerva-kb' ),
-				'default' => array("unit" => 'em', "size" => "2"),
+				'default' => array("unit" => 'em', "size" => "0"),
 				'description' => __( 'Distance between FAQ controls and questions', 'minerva-kb' ),
 			),
 			array(
